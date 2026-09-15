@@ -1,4 +1,6 @@
 {
+    "wgf.lua": "E:/kk/Editor/KKWE/plugin/w3x2lni_zhCN_v2.7.3/bin/w3x2lni-lua.exe",
+    "wgf.w2l": "E:/kk/Editor/KKWE/plugin/w3x2lni_zhCN_v2.7.3/w2l.exe",
     "Lua.diagnostics.globals": [
         "game",
         "Yuyuko",

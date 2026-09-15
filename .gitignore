@@ -6,3 +6,9 @@ scripts/base/system/finite_state
 /*.w3x
 !/.w3x
 
+# w3x2lni 与 KKWE 生成的产物
+map/lua/currentpath.lua
+/used_ids.txt
+/api/
+/_backup/
+

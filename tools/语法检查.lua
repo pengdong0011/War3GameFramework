@@ -1,14 +1,25 @@
 ---@diagnostic disable: undefined-global
 local fs = require 'bee.filesystem'
 
+-- 兼容完整版 bee(path:list_directory) 与 KKWE 精简版 bee(fs.pairs)
 local function for_directory(path, f)
-	for p in path:list_directory() do
-		if fs.is_directory(p) then
-			for_directory(p, f)
-		else
-			f(p)
-		end
-	end
+    if path.list_directory then
+        for p in path:list_directory() do
+            if fs.is_directory(p) then
+                for_directory(p, f)
+            else
+                f(p)
+            end
+        end
+    else
+        for p, kind in fs.pairs(path) do
+            if tostring(kind) == 'directory' then
+                for_directory(p, f)
+            else
+                f(p)
+            end
+        end
+    end
 end
 
 local function compilation(path)

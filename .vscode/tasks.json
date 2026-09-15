@@ -1,32 +1,53 @@
 {
     // See https://go.microsoft.com/fwlink/?LinkId=733558
     // for the documentation about the tasks.json format
+    // 依赖 KKWE 自带的 w3x2lni 工具链, 路径在 settings.json 的 wgf.lua / wgf.w2l 中配置
     "version": "2.0.0",
     "type": "shell",
+    // VSCode 默认 shell 可能是 PowerShell, 而 chcp/&& 是 cmd 语法, 这里强制使用 cmd
+    "options": {
+        "shell": {
+            "executable": "cmd.exe",
+            "args": [
+                "/d",
+                "/c"
+            ]
+        }
+    },
     "tasks": [
         {
             "label": "运行",
-            "command": "chcp 65001 && \"${workspaceRoot}/tools/w3x2lni/bin/w3x2lni-lua.exe\"",
+            "type": "shell",
+            "command": "chcp 65001 >nul && \"${config:wgf.lua}\"",
             "args": [
                 ".\\tools\\运行.lua",
                 "${workspaceRoot}"
-            ]
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "problemMatcher": []
         },
         {
             "label": "配置",
-            "command": "chcp 65001 && \"${workspaceRoot}/tools/w3x2lni/bin/w3x2lni-lua.exe\"",
+            "type": "shell",
+            "command": "chcp 65001 >nul && \"${config:wgf.lua}\"",
             "args": [
                 ".\\tools\\配置.lua",
                 "${workspaceRoot}"
-            ]
+            ],
+            "problemMatcher": []
         },
         {
             "label": "语法检查",
-            "command": "chcp 65001 && \"${workspaceRoot}/tools/w3x2lni/bin/w3x2lni-lua.exe\"",
+            "type": "shell",
+            "command": "chcp 65001 >nul && \"${config:wgf.lua}\"",
             "args": [
                 ".\\tools\\语法检查.lua",
                 "${workspaceRoot}"
             ],
+            "group": "build",
             "problemMatcher": {
                 "owner": "lua",
                 "fileLocation": [
@@ -42,7 +63,8 @@
         },
         {
             "label": "Obj",
-            "command": "chcp 65001 && \"${workspaceRoot}/tools/w3x2lni/w2l.exe\"",
+            "type": "shell",
+            "command": "chcp 65001 >nul && \"${config:wgf.w2l}\"",
             "presentation": {
                 "echo": false,
                 "reveal": "always",
@@ -57,7 +79,8 @@
         },
         {
             "label": "Lni",
-            "command": "chcp 65001 && \"${workspaceRoot}/tools/w3x2lni/w2l.exe\"",
+            "type": "shell",
+            "command": "chcp 65001 >nul && \"${config:wgf.w2l}\"",
             "presentation": {
                 "echo": false,
                 "reveal": "always",
@@ -72,7 +95,8 @@
         },
         {
             "label": "Slk",
-            "command": "chcp 65001 && \"${workspaceRoot}/tools/w3x2lni/w2l.exe\"",
+            "type": "shell",
+            "command": "chcp 65001 >nul && \"${config:wgf.w2l}\"",
             "presentation": {
                 "echo": false,
                 "reveal": "always",
@@ -87,8 +111,11 @@
         },
         {
             "label": "🔍",
-            "command": "chcp 65001 && \"${workspaceRoot}/tools/w3x2lni/bin/w3x2lni-lua.exe\" -e \"package.cpath=package.cpath..';'..[[${workspaceRoot}/tools/?.dll]]\"",
+            "type": "shell",
+            "command": "chcp 65001 >nul && \"${config:wgf.lua}\"",
             "args": [
+                "-e",
+                "package.cpath=package.cpath..';'..[[${workspaceRoot}/tools/?.dll]]",
                 ".\\tools\\语法检查.lua",
                 "${workspaceRoot}",
                 "--watch"

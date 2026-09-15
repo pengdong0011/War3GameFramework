@@ -46,11 +46,13 @@ end
 local function ReadSLK()
     for str_id, value in pairs(slk.unit) do
         local key = value.Propernames or value.Name
-        unitName2ID[key] = Yuyuko.String2ID(str_id)
+        if str_id and key ~= nil then
+            unitName2ID[key] = Yuyuko.String2ID(str_id)
+        end
     end
 
     for str_id, value in pairs(slk.ability) do
-        if value.Name ~= nil then
+        if str_id and value.Name ~= nil then
             abilityName2ID[value.Name] = Yuyuko.String2ID(str_id)
             if value.item == 1 then
                 itemAbilityIntID[Yuyuko.String2ID(str_id)] = true
@@ -59,11 +61,13 @@ local function ReadSLK()
     end
 
     for str_id, value in pairs(slk.item) do
-        local a, b, c = value.Name:match("(|cff%x%x%x%x%x%x)(.+)(|r)")
-        if b then
-            itemName2ID[b] = Yuyuko.String2ID(str_id)
-        else
-            itemName2ID[value.Name] = Yuyuko.String2ID(str_id)
+        if str_id and value.Name ~= nil then
+            local a, b, c = value.Name:match("(|cff%x%x%x%x%x%x)(.+)(|r)")
+            if b then
+                itemName2ID[b] = Yuyuko.String2ID(str_id)
+            else
+                itemName2ID[value.Name] = Yuyuko.String2ID(str_id)
+            end
         end
     end
 end
